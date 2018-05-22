@@ -3,7 +3,7 @@ package com.example.ike.todoapp.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.example.ike.todoapp.presentation.MainViewModel;
+import com.example.ike.todoapp.presentation.TodoListViewModel;
 
 import dagger.Binds;
 import dagger.Module;
@@ -17,8 +17,8 @@ public interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainViewModel.class)
-    ViewModel bindMainViewModel(MainViewModel mainViewModel);
+    @ViewModelKey(TodoListViewModel.class)
+    ViewModel bindTodoListViewModel(TodoListViewModel todoListViewModel);
 
     @Binds
     ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);
