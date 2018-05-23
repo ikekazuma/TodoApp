@@ -31,6 +31,7 @@ public class TodoListViewModel extends ViewModel {
     @Inject
     public TodoListViewModel(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
+        load();
     }
 
     public void loadTodo() {

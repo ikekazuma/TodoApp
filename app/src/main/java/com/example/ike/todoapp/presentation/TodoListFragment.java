@@ -42,11 +42,6 @@ public class TodoListFragment extends DaggerFragment {
 
         binding = FragmentTodoListBinding.inflate(inflater, container, false);
         viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(TodoListViewModel.class);
-        viewModel.todo.observe(this, result -> {
-            if (result != null && result.data() != null) {
-                setRecyclerView((List<Todo>)result.data());
-            }
-        });
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         final RecyclerView recyclerView = binding.recyclerView;
@@ -54,12 +49,22 @@ public class TodoListFragment extends DaggerFragment {
         adapter = new TodoListAdapter(new ArrayList<>());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        viewModel.loadTodo();
+        viewModel.todo.observe(this, result -> {
+            if (result != null && result.data() != null) {
+                setRecyclerView((List<Todo>)result.data());
+            }
+        });
         return binding.getRoot();
     }
 
     private void setRecyclerView(List<Todo> todos) {
+        if (todos == null) {
+            return;
+        }
         adapter.setData(todos);
+        binding.recyclerView.setVisibility(todos.size() == 0 ? View.GONE : View.VISIBLE);
+        binding.emptyView.setVisibility(todos.size() == 0 ? View.VISIBLE : View.GONE);
     }
+
 
 }
