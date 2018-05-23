@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        supportLibraryVersion = '27.0.2'
+        supportLibraryVersion = '27.1.1'
         okHttpVersion = '3.9.1'
         retrofitVersion = '2.3.0'
         gsonVersion = '2.8.2'

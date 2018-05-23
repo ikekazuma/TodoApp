@@ -1,6 +1,5 @@
 package com.example.ike.todoapp.presentation;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,23 +7,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.example.ike.todoapp.R;
-import com.example.ike.todoapp.databinding.ActivityTodoListBinding;
+import com.example.ike.todoapp.databinding.ActivityMakeTodoBinding;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
-public class TodoListActivity extends DaggerAppCompatActivity {
+public class MakeTodoActivity extends DaggerAppCompatActivity {
 
-    ActivityTodoListBinding binding;
+    ActivityMakeTodoBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_todo_list);
-        addFragment(new TodoListFragment());
-        binding.button.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MakeTodoActivity.class);
-            startActivity(intent);
-        });
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_make_todo);
+        addFragment(new MakeTodoFragment());
     }
 
     private void addFragment(Fragment fragment) {

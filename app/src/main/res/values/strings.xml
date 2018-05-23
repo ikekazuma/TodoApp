@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TodoApp</string>
     <string name="empty_todo">Todoはまだありません</string>
+
+    <!-- make -->
+    <string name="title_place_holder">タイトル</string>
 </resources>
