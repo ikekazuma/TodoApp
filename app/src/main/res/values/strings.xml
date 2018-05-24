@@ -5,4 +5,8 @@
     <!-- make -->
     <string name="toolbar_make">Todoを追加</string>
     <string name="title_place_holder">タイトル</string>
+
+    <!-- detail-->
+    <string name="toolbar_detail">Todo 詳細</string>
+
 </resources>

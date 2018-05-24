@@ -46,7 +46,18 @@ public class TodoListFragment extends DaggerFragment {
         binding.setViewModel(viewModel);
         final RecyclerView recyclerView = binding.recyclerView;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        adapter = new TodoListAdapter(new ArrayList<>());
+        adapter = new TodoListAdapter(new ArrayList<>()) {
+            @Override
+            protected void onClick(Todo todo) {
+                try {
+                    OnItemClickListener listener = (OnItemClickListener) getActivity();
+                    listener.onItemClick(todo);
+                } catch (ClassCastException e) {
+                    throw new ClassCastException(getActivity().toString()
+                            + " must implement OnItemClickListener");
+                }
+            }
+        };
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         viewModel.todo.observe(this, result -> {
@@ -66,5 +77,7 @@ public class TodoListFragment extends DaggerFragment {
         binding.emptyView.setVisibility(todos.size() == 0 ? View.VISIBLE : View.GONE);
     }
 
-
+    public interface OnItemClickListener {
+        void onItemClick(Todo todo);
+    }
 }

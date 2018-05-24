@@ -20,6 +20,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
                 AndroidSupportInjectionModule.class,
                 AppModule.class,
                 TodoListActivityModule.class,
+                TodoDetailActivityModule.class,
                 MakeTodoActivityModule.class,
                 ViewModelModule.class
         })

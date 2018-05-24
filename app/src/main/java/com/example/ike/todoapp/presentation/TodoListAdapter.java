@@ -16,6 +16,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
 
     private List<Todo> data;
 
+    protected void onClick(Todo todo) { }
+
     public TodoListAdapter(List<Todo> data) {
         this.data = data;
     }
@@ -32,7 +34,9 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(TodoListAdapter.ViewHolder holder, int position) {
-        holder.binding.title.setText(data.get(position).title);
+        Todo todo = data.get(position);
+        holder.binding.title.setText(todo.title);
+        holder.binding.title.setOnClickListener((view -> onClick(todo)));
     }
 
     @Override
