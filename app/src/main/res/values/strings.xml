@@ -3,5 +3,6 @@
     <string name="empty_todo">Todoはまだありません</string>
 
     <!-- make -->
+    <string name="toolbar_make">Todoを追加</string>
     <string name="title_place_holder">タイトル</string>
 </resources>
