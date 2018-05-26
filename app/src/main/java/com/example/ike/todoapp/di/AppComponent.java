@@ -19,6 +19,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
         {
                 AndroidSupportInjectionModule.class,
                 AppModule.class,
+                NetworkModule.class,
                 TodoListActivityModule.class,
                 TodoDetailActivityModule.class,
                 MakeTodoActivityModule.class,
