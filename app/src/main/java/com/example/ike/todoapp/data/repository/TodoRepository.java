@@ -7,6 +7,6 @@ import java.util.List;
 import io.reactivex.Flowable;
 
 public interface TodoRepository {
-    void addTodo(Todo todo);
+    Flowable<String> addTodo(String token, Todo todo);
     Flowable<List<Todo>> getTodos(String token);
 }

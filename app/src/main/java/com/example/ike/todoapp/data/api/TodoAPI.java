@@ -18,5 +18,5 @@ public interface TodoAPI {
     Flowable<GetTodosResponse> getTodos(@Query("token") String token);
 
     @POST("todos/add")
-    Flowable<Response<Void>> addTodos(@Query("token") String token, @Query("date") String date, @Query("title") String title, @Query("content") String content);
+    Flowable<Response<Void>> addTodos(@Query("token") String token, @Query("date") String date, @Query(value = "title", encoded = true) String title, @Query(value = "content", encoded = true) String content);
 }

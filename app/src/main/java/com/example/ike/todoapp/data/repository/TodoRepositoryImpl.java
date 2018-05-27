@@ -5,12 +5,10 @@ import com.example.ike.todoapp.data.api.response.GetTodosResponse;
 import com.example.ike.todoapp.model.Todo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 
 public class TodoRepositoryImpl implements TodoRepository {
@@ -23,8 +21,13 @@ public class TodoRepositoryImpl implements TodoRepository {
     }
 
     @Override
-    public void addTodo(Todo todo) {
-
+    public Flowable<String> addTodo(String token, Todo todo) {
+        return api.addTodos(token, todo.date, todo.title, todo.content).map(response -> {
+            if (response.isSuccessful()) {
+                return "success";
+            }
+            return null;
+        } );
     }
 
     @Override
