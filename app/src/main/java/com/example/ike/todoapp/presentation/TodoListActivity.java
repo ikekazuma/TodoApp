@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 
 import com.example.ike.todoapp.R;
 import com.example.ike.todoapp.databinding.ActivityTodoListBinding;
@@ -50,6 +51,16 @@ public class TodoListActivity extends DaggerAppCompatActivity implements TodoLis
             viewModel.loadTodo();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void addFragment(Fragment fragment) {

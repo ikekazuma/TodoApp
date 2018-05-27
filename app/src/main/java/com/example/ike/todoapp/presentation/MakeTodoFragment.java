@@ -43,7 +43,7 @@ public class MakeTodoFragment extends DaggerFragment {
                 binding.content.setText("");
             }
         });
-        binding.addButton.setOnClickListener(view -> {
+        binding.button.setOnClickListener(view -> {
             if (binding.title.getText().toString().isEmpty() || binding.content.getText().toString().isEmpty()) {
                 return;
             }
