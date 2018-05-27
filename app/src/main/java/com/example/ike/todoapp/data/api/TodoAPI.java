@@ -11,12 +11,12 @@ import retrofit2.http.Query;
 
 public interface TodoAPI {
 
-    @POST("todos/user")
+    @POST("user")
     Flowable<UserResponse> postUser();
 
     @GET("todos")
     Flowable<GetTodosResponse> getTodos(@Query("token") String token);
 
-    @POST("todos/add")
+    @POST("todos")
     Flowable<Response<Void>> addTodos(@Query("token") String token, @Query("date") String date, @Query(value = "title", encoded = true) String title, @Query(value = "content", encoded = true) String content);
 }
