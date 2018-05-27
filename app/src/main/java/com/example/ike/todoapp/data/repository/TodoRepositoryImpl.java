@@ -44,4 +44,14 @@ public class TodoRepositoryImpl implements TodoRepository {
             return todos;
         });
     }
+
+    @Override
+    public Flowable<String> deleteTodo(String token, Todo todo) {
+        return api.deleteTodos(token, todo.date).map(response -> {
+            if (response.isSuccessful()) {
+                return "success";
+            }
+            return null;
+        } );
+    }
 }
