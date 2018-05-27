@@ -1,7 +1,10 @@
 package com.example.ike.todoapp.data.repository;
 
+import com.example.ike.todoapp.data.api.TodoAPI;
+import com.example.ike.todoapp.data.api.response.GetTodosResponse;
 import com.example.ike.todoapp.model.Todo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,18 +15,11 @@ import io.reactivex.Flowable;
 
 public class TodoRepositoryImpl implements TodoRepository {
 
-    // dummy
-    private static final Todo[] mock = new Todo[] {
-            new Todo(1, "title1", "content1"),
-            new Todo(2, "title2", "content2"),
-            new Todo(3, "title3", "content3"),
-            new Todo(4, "title4", "content4"),
-            new Todo(5, "title5", "content5"),
-    };
+    private TodoAPI api;
 
     @Inject
-    public TodoRepositoryImpl() {
-
+    public TodoRepositoryImpl(TodoAPI api) {
+        this.api = api;
     }
 
     @Override
@@ -32,13 +28,17 @@ public class TodoRepositoryImpl implements TodoRepository {
     }
 
     @Override
-    public Flowable<List<Todo>> getTodo()  {
-        return Flowable.create(
-                subscriber -> {
-                    Thread.sleep(2000);
-                    subscriber.onNext(Arrays.asList(mock));
-                    subscriber.onComplete();
-                }
-                , BackpressureStrategy.DROP);
+    public Flowable<List<Todo>> getTodos(String token) {
+        return api.getTodos(token).map(getTodosResponse -> {
+            List<Todo> todos = new ArrayList<>();
+            for (GetTodosResponse.Todo resTodo : getTodosResponse.Items) {
+                Todo todo = new Todo();
+                todo.title = resTodo.title;
+                todo.content = resTodo.content;
+                todo.date = resTodo.date;
+                todos.add(todo);
+            }
+            return todos;
+        });
     }
 }

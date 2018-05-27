@@ -6,6 +6,7 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.ike.todoapp.data.repository.TodoRepository;
+import com.example.ike.todoapp.data.repository.UserRepository;
 
 import javax.inject.Inject;
 
@@ -20,6 +21,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class TodoListViewModel extends ViewModel {
 
+    private UserRepository userRepository;
+
     private TodoRepository todoRepository;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -29,7 +32,8 @@ public class TodoListViewModel extends ViewModel {
     public LiveData<Boolean> isLoading = Transformations.map(todo, todo -> todo != null && todo.isLoading());
 
     @Inject
-    public TodoListViewModel(TodoRepository todoRepository) {
+    public TodoListViewModel(UserRepository userRepository, TodoRepository todoRepository) {
+        this.userRepository = userRepository;
         this.todoRepository = todoRepository;
         load();
     }
@@ -39,8 +43,9 @@ public class TodoListViewModel extends ViewModel {
     }
 
     private Disposable load() {
-        return todoRepository.getTodo()
-                .subscribeOn(Schedulers.newThread())
+        return userRepository.getUserToken()
+                .flatMap(token -> todoRepository.getTodos(token))
+                .subscribeOn(Schedulers.io())
                 .map(Result::success)
                 .startWith(Result.loading())
                 .onErrorReturn(Result::failure)

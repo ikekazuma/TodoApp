@@ -9,4 +9,8 @@
     <!-- detail-->
     <string name="toolbar_detail">Todo 詳細</string>
 
+    <!-- SharedPreferences -->
+    <string name="shared_preferences_name">com.example.ike.todoapp.sharedpref</string>
+    <string name="shared_preferences_key_token">token</string>
+
 </resources>

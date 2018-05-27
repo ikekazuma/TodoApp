@@ -4,14 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Todo implements Parcelable {
-    public int id;
+
     public String title;
     public String content;
+    public String date;
 
-    public Todo(int id, String title, String content) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
+    public Todo() {
+
     }
 
     @Override
@@ -21,18 +20,18 @@ public class Todo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
         dest.writeString(this.title);
         dest.writeString(this.content);
+        dest.writeString(this.date);
     }
 
     protected Todo(Parcel in) {
-        this.id = in.readInt();
         this.title = in.readString();
         this.content = in.readString();
+        this.date = in.readString();
     }
 
-    public static final Parcelable.Creator<Todo> CREATOR = new Parcelable.Creator<Todo>() {
+    public static final Creator<Todo> CREATOR = new Creator<Todo>() {
         @Override
         public Todo createFromParcel(Parcel source) {
             return new Todo(source);
