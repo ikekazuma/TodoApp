@@ -19,7 +19,10 @@ import dagger.android.support.AndroidSupportInjectionModule;
         {
                 AndroidSupportInjectionModule.class,
                 AppModule.class,
-                MainActivityModule.class,
+                NetworkModule.class,
+                TodoListActivityModule.class,
+                TodoDetailActivityModule.class,
+                MakeTodoActivityModule.class,
                 ViewModelModule.class
         })
 public interface AppComponent extends AndroidInjector<App> {

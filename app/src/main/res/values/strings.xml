@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">TodoApp</string>
+    <string name="empty_todo">Todoはまだありません</string>
+
+    <!-- make -->
+    <string name="toolbar_make">Todoを追加</string>
+    <string name="title_place_holder">タイトル</string>
+
+    <!-- detail-->
+    <string name="toolbar_detail">Todo 詳細</string>
+
+    <!-- SharedPreferences -->
+    <string name="shared_preferences_name">com.example.ike.todoapp.sharedpref</string>
+    <string name="shared_preferences_key_token">token</string>
+
 </resources>
