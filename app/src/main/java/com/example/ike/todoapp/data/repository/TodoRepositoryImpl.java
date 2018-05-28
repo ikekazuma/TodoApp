@@ -1,6 +1,9 @@
 package com.example.ike.todoapp.data.repository;
 
 import com.example.ike.todoapp.data.api.TodoAPI;
+import com.example.ike.todoapp.data.api.request.AddTodosRequest;
+import com.example.ike.todoapp.data.api.request.DeleteTodosRequest;
+import com.example.ike.todoapp.data.api.request.GetTodosRequest;
 import com.example.ike.todoapp.data.api.response.GetTodosResponse;
 import com.example.ike.todoapp.model.Todo;
 
@@ -22,7 +25,7 @@ public class TodoRepositoryImpl implements TodoRepository {
 
     @Override
     public Flowable<String> addTodo(String token, Todo todo) {
-        return api.addTodos(token, todo.date, todo.title, todo.content).map(response -> {
+        return api.addTodos(new AddTodosRequest(token, todo)).map(response -> {
             if (response.isSuccessful()) {
                 return "success";
             }
@@ -32,7 +35,7 @@ public class TodoRepositoryImpl implements TodoRepository {
 
     @Override
     public Flowable<List<Todo>> getTodos(String token) {
-        return api.getTodos(token).map(getTodosResponse -> {
+        return api.getTodos(new GetTodosRequest(token)).map(getTodosResponse -> {
             List<Todo> todos = new ArrayList<>();
             for (GetTodosResponse.Todo resTodo : getTodosResponse.Items) {
                 Todo todo = new Todo();
@@ -47,7 +50,7 @@ public class TodoRepositoryImpl implements TodoRepository {
 
     @Override
     public Flowable<String> deleteTodo(String token, Todo todo) {
-        return api.deleteTodos(token, todo.date).map(response -> {
+        return api.deleteTodos(new DeleteTodosRequest(token, todo)).map(response -> {
             if (response.isSuccessful()) {
                 return "success";
             }
