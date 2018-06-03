@@ -43,16 +43,40 @@ public class MakeTodoFragment extends DaggerFragment {
                 binding.content.setText("");
             }
         });
-        binding.button.setOnClickListener(view -> {
-            if (binding.title.getText().toString().isEmpty() || binding.content.getText().toString().isEmpty()) {
-                return;
-            }
-            Todo todo = new Todo();
-            todo.title = binding.title.getText().toString();
-            todo.content = binding.content.getText().toString();
-            viewModel.onAddTodoButtonClick(todo);
-        });
+        Todo t = getArguments().getParcelable("todo");
+        if (t != null) {
+            binding.title.setText(t.title);
+            binding.content.setText(t.content);
+            binding.button.setOnClickListener(view -> {
+                if (binding.title.getText().toString().isEmpty() || binding.content.getText().toString().isEmpty()) {
+                    return;
+                }
+                t.title = binding.title.getText().toString();
+                t.content = binding.content.getText().toString();
+                viewModel.onUpdateButtonClick(t);
+            });
+        } else {
+            binding.button.setOnClickListener(view -> {
+                if (binding.title.getText().toString().isEmpty() || binding.content.getText().toString().isEmpty()) {
+                    return;
+                }
+                Todo todo = new Todo();
+                todo.title = binding.title.getText().toString();
+                todo.content = binding.content.getText().toString();
+                viewModel.onAddTodoButtonClick(todo);
+            });
+        }
+
         return binding.getRoot();
     }
 
+    public static MakeTodoFragment newInstance(Todo todo) {
+        Bundle bundle = new Bundle();
+        MakeTodoFragment fragment = new MakeTodoFragment();
+        if (todo != null) {
+            bundle.putParcelable("todo", todo);
+        }
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 }

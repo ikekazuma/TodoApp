@@ -29,7 +29,7 @@ public class TodoListActivity extends DaggerAppCompatActivity implements TodoLis
     TodoListViewModel viewModel;
 
     public static final int REQUEST_CODE_ADD_TODO = 111;
-    public static final int REQUEST_CODE_DELETE_TODO = 222;
+    public static final int REQUEST_CODE_UPDATE_TODO = 222;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class TodoListActivity extends DaggerAppCompatActivity implements TodoLis
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((requestCode == REQUEST_CODE_ADD_TODO || requestCode == REQUEST_CODE_DELETE_TODO) && resultCode == RESULT_OK) {
+        if ((requestCode == REQUEST_CODE_ADD_TODO || requestCode == REQUEST_CODE_UPDATE_TODO) && resultCode == RESULT_OK) {
             viewModel.loadTodo();
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -73,6 +73,6 @@ public class TodoListActivity extends DaggerAppCompatActivity implements TodoLis
 
     @Override
     public void onItemClick(Todo todo) {
-        TodoDetailActivity.startActivityForResult(this, REQUEST_CODE_DELETE_TODO, todo);
+        MakeTodoActivity.startActivityForResult(this, REQUEST_CODE_UPDATE_TODO, todo);
     }
 }

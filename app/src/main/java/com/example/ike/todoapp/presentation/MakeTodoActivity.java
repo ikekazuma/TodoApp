@@ -1,6 +1,9 @@
 package com.example.ike.todoapp.presentation;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import com.example.ike.todoapp.R;
 import com.example.ike.todoapp.databinding.ActivityMakeTodoBinding;
 import com.example.ike.todoapp.di.ViewModelFactory;
+import com.example.ike.todoapp.model.Todo;
 
 import javax.inject.Inject;
 
@@ -40,11 +44,27 @@ public class MakeTodoActivity extends DaggerAppCompatActivity {
             String message = result.throwable() == null ? "成功しました" : "失敗しました";
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         });
+        viewModel.update.observe(this, result -> {
+            if (result == null || result.isLoading()) {
+                return;
+            }
+            boolean success = result.throwable() == null;
+            Toast.makeText(this, success ? "成功しました" : "失敗しました", Toast.LENGTH_LONG).show();
+            if (success) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        addFragment(new MakeTodoFragment());
+
+        Todo todo = getIntent().getParcelableExtra("todo");
+        if (todo != null) {
+            toolbar.setTitle("Todoを編集");
+        }
+        addFragment(MakeTodoFragment.newInstance(todo));
     }
 
     private void addFragment(Fragment fragment) {
@@ -78,5 +98,11 @@ public class MakeTodoActivity extends DaggerAppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public static void startActivityForResult(Context context, int requestCode, Todo todo) {
+        Intent intent = new Intent(context, MakeTodoActivity.class);
+        intent.putExtra("todo", todo);
+        ((Activity)context).startActivityForResult(intent, requestCode);
     }
 }

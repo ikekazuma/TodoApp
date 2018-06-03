@@ -7,6 +7,9 @@ import android.arch.lifecycle.ViewModel;
 
 import com.example.ike.todoapp.data.repository.TodoRepository;
 import com.example.ike.todoapp.data.repository.UserRepository;
+import com.example.ike.todoapp.model.Todo;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,6 +34,10 @@ public class TodoListViewModel extends ViewModel {
 
     public LiveData<Boolean> isLoading = Transformations.map(todo, todo -> todo != null && todo.isLoading());
 
+    public MutableLiveData<Result> delete = new MutableLiveData<>();
+
+    public LiveData<Boolean> isDeleting = Transformations.map(delete, result -> result != null && result.isLoading());
+
     @Inject
     public TodoListViewModel(UserRepository userRepository, TodoRepository todoRepository) {
         this.userRepository = userRepository;
@@ -52,6 +59,27 @@ public class TodoListViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         result -> todo.postValue(result)
+                );
+    }
+
+    public void onSwiped(int position){
+        if (todo.getValue() == null || todo.getValue().data() == null ||  ((List<Todo>)todo.getValue().data()).size() < position) {
+            return;
+        }
+        Todo item = ((List<Todo>) todo.getValue().data()).get(position);
+        compositeDisposable.add(delete(item));
+    }
+
+    private Disposable delete(Todo todo) {
+        return userRepository.getUserToken()
+                .flatMap(token -> todoRepository.deleteTodo(token, todo))
+                .subscribeOn(Schedulers.io())
+                .map(Result::success)
+                .startWith(Result.loading())
+                .onErrorReturn(Result::failure)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        result -> delete.postValue(result)
                 );
     }
 }

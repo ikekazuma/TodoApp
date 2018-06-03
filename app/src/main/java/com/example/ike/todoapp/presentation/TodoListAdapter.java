@@ -26,6 +26,11 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
         this.data = data;
         notifyDataSetChanged();
     }
+
+    public void deleteData(int position) {
+        data.remove(position);
+        notifyItemChanged(position);
+    }
     
     @Override
     public TodoListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,10 +44,12 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
         holder.itemView.setOnClickListener(view -> onClick(todo));
     }
 
+
     @Override
     public int getItemCount() {
         return data.size();
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TodoItemBinding binding;

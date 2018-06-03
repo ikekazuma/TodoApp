@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.example.ike.todoapp.presentation.MakeTodoViewModel;
-import com.example.ike.todoapp.presentation.TodoDetailViewModel;
 import com.example.ike.todoapp.presentation.TodoListViewModel;
 
 import dagger.Binds;
@@ -21,11 +20,6 @@ public interface ViewModelModule {
     @IntoMap
     @ViewModelKey(TodoListViewModel.class)
     ViewModel bindTodoListViewModel(TodoListViewModel todoListViewModel);
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(TodoDetailViewModel.class)
-    ViewModel bindTodoDetailViewModel(TodoDetailViewModel todoDetailViewModel);
 
     @Binds
     @IntoMap
