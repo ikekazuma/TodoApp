@@ -4,6 +4,7 @@ import com.example.ike.todoapp.data.api.TodoAPI;
 import com.example.ike.todoapp.data.api.request.AddTodosRequest;
 import com.example.ike.todoapp.data.api.request.DeleteTodosRequest;
 import com.example.ike.todoapp.data.api.request.GetTodosRequest;
+import com.example.ike.todoapp.data.api.request.UpdateTodosRequest;
 import com.example.ike.todoapp.data.api.response.GetTodosResponse;
 import com.example.ike.todoapp.model.Todo;
 
@@ -46,6 +47,16 @@ public class TodoRepositoryImpl implements TodoRepository {
             }
             return todos;
         });
+    }
+
+    @Override
+    public Flowable<String> updateTodo(String token, Todo todo) {
+        return api.updateTodos(new UpdateTodosRequest(token, todo)).map(response -> {
+            if (response.isSuccessful()) {
+                return "success";
+            }
+            return null;
+        } );
     }
 
     @Override

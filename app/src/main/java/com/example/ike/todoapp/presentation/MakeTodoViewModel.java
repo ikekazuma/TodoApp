@@ -32,6 +32,10 @@ public class MakeTodoViewModel extends ViewModel {
 
     public LiveData<Boolean> isAdding = Transformations.map(add, result -> result != null && result.isLoading());
 
+    public MutableLiveData<Result> update = new MutableLiveData<>();
+
+    public LiveData<Boolean> isUpdating = Transformations.map(update, result -> result != null && result.isLoading());
+
     // Todoを追加したかどうかのフラグ
     public boolean isAdded = false;
 
@@ -60,6 +64,25 @@ public class MakeTodoViewModel extends ViewModel {
                                 isAdded = true;
                             }
                             add.postValue(result);
+                        }
+                );
+    }
+
+    public void onUpdateButtonClick(Todo todo) {
+        compositeDisposable.add(updateTodo(todo));
+    }
+
+    private Disposable updateTodo(Todo todo) {
+        return userRepository.getUserToken()
+                .flatMap(token -> todoRepository.updateTodo(token, todo))
+                .subscribeOn(Schedulers.io())
+                .map(Result::success)
+                .startWith(Result.loading())
+                .onErrorReturn(Result::failure)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        result -> {
+                            update.postValue(result);
                         }
                 );
     }
